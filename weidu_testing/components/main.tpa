@@ -1,0 +1,6 @@
+//Libraries.
+INCLUDE "%MOD_FOLDER%/lib/installer.tpa"
+
+
+//Copy items for spells.
+LAF copy_items END

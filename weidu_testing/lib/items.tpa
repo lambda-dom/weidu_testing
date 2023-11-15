@@ -1,0 +1,70 @@
+//Libraries.
+INCLUDE "%MOD_FOLDER%/lib/tables.tpa"
+
+
+//Constants.
+//Arrays.
+LAF build_array_from_2da STR_VAR
+    table = "%MOD_FOLDER%/resources/2da/items/offsets.2da"
+RET_ARRAY
+    item_offsets = array
+END
+
+
+//Read-write functions.
+DEFINE_PATCH_FUNCTION set_item_field STR_VAR field = "" value = "" BEGIN
+    //Lower-case field to avoid trivial mismatches.
+    TO_LOWER field
+    
+    //Match on field to decide which write function to use.
+    field_offset = $item_offsets("%field%")
+    PATCH_MATCH "%field%" WITH
+        "id_name"
+        "name"
+        "id_descr"
+        "descr"
+        "flags"
+        "usability"
+        "price"
+        "weight"
+        "enchantment" BEGIN
+            PATCH_PRINT "set_item_field: writing long '%value%' to field '%field%' at offset '%field_offset%'."
+            WRITE_LONG field_offset value
+        END
+        "strength_bonus"
+        "intelligence"
+        "constitution"
+        "dexterity"
+        "wisdom"
+        "proficiency"
+        "kit_usability1"
+        "kit_usability2"
+        "kit_usability3"
+        "kit_usability4" BEGIN
+            PATCH_PRINT "set_item_field: writing byte '%value%' to field '%field%' at offset '%field_offset%'."
+            WRITE_BYTE field_offset value
+        END
+        "type"
+        "level"
+        "strength"
+        "charisma"
+        "stack"
+        "lore" BEGIN
+            PATCH_PRINT "set_item_field: writing short '%value%' to field '%field%' at offset '%field_offset%'."
+            WRITE_SHORT field_offset value
+        END
+        "animation" BEGIN
+            PATCH_PRINT "set_item_field: writing ascii[2] '%value%' to field '%field%' at offset '%field_offset%'."
+            WRITE_EVALUATED_ASCII field_offset "%value%" #2
+        END
+        "replacement"
+        "inventory_icon"
+        "ground_icon"
+        "description_icon" BEGIN
+            PATCH_PRINT "set_item_field: writing ascii[8] '%value%' to field '%field%' at offset '%field_offset%'."
+            WRITE_EVALUATED_ASCII field_offset "%value%" #8
+        END
+        DEFAULT
+            PATCH_FAIL "set_item_field: field '%field%' is not a valid item field."
+    END
+END

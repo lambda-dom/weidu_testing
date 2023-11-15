@@ -1,0 +1,23 @@
+//Builders.
+DEFINE_DIMORPHIC_FUNCTION build_array_from_2da INT_VAR col = 1 STR_VAR table = "" RET_ARRAY array BEGIN
+    //Existence check.
+    ACTION_IF NOT (FILE_EXISTS "%table%") BEGIN
+        FAIL "build_array_from_2da: table file '%table%' does not exist."
+    END
+
+    COPY - "%table%" "override"
+        //Sanity bounds check.
+        COUNT_2DA_COLS cols
+        PATCH_IF NOT ((1 <= col) AND (col < cols)) BEGIN
+            PATCH_FAIL "build_array_from_2da: column index '%col%' out of bounds."
+        END
+
+        DEFINE_ASSOCIATIVE_ARRAY array BEGIN END
+        READ_2DA_ENTRIES_NOW "table#rows" cols
+        //Loop through table.
+        FOR (i = 0 ; i < table#rows ; ++ i) BEGIN
+            READ_2DA_ENTRY_FORMER "table#rows" i 0 key
+            READ_2DA_ENTRY_FORMER "table#rows" i col value
+            TEXT_SPRINT $array("%key%") "%value%"
+        END
+END

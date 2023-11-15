@@ -1,0 +1,23 @@
+//Libraries.
+INCLUDE "%MOD_FOLDER%/lib/items.tpa"
+INCLUDE "%MOD_FOLDER%/lib/tables.tpa"
+
+
+//Installers.
+DEFINE_ACTION_FUNCTION copy_items BEGIN
+    OUTER_TEXT_SPRINT dir "%MOD_FOLDER%/resources/itm"
+    OUTER_TEXT_SPRINT resource "magical_stone_a"
+    //Inject names into current scope.
+    OUTER_TEXT_SPRINT stack "20"
+    OUTER_TEXT_SPRINT lore "0"
+    OUTER_TEXT_SPRINT weight "0"
+    OUTER_TEXT_SPRINT enchantment "1"
+
+    COPY "%dir%/%resource%.itm" "override/%resource%.itm"
+        PATCH_PRINT "copy_items: copying '%dir%/%resource%.itm' to 'override/%resource%.itm'."
+        //Patch item.
+        LPF set_item_field STR_VAR field = "stack" value = "%stack%" END
+        LPF set_item_field STR_VAR field = "lore" value = "%lore%" END
+        LPF set_item_field STR_VAR field = "weight" value = "%weight%" END
+        LPF set_item_field STR_VAR field = "enchantment" value = "%enchantment%" END
+END

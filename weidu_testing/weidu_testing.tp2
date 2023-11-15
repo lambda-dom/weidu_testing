@@ -1,0 +1,14 @@
+BACKUP "weidu_external/backup/weidu_testing"
+AUTHOR "lambda_dom"
+VERSION "1.0"
+
+//Flags.
+AUTO_EVAL_STRINGS
+
+//Languages
+LANGUAGE "English" "english" "%MOD_FOLDER%/languages/english/setup.tra"
+
+//Components.
+//Weidu tests.
+BEGIN @1 DESIGNATED 1
+INCLUDE "%MOD_FOLDER%/components/main.tpa"

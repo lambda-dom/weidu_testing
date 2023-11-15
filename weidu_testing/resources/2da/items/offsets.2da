@@ -1,0 +1,33 @@
+2DA V1.0
+*
+                    offset  type
+name                0x08    long
+id_name             0x0c    long
+replacement         0x10    ascii
+flags               0x18    long
+type                0x1c    short
+usability           0x1e    long
+animation           0x22    short
+level               0x24    short
+strength            0x26    short
+strength_bonus      0x28    byte
+kit_usability1      0x29    byte
+intelligence        0x2a    byte
+kit_usability2      0x2b    byte
+dexterity           0x2c    byte
+kit_usability3      0x2d    byte
+wisdom              0x2e    byte
+kit_usability4      0x2f    byte
+constitution        0x30    byte
+proficiency         0x31    byte
+charisma            0x32    short
+price               0x34    long
+stack               0x38    short
+inventory_icon      0x3a    ascii
+lore                0x42    short
+ground_icon         0x44    ascii
+weight              0x4c    long
+descr               0x50    long
+id_descr            0x54    long
+description_icon    0x58    ascii
+enchantment         0x60    long
